@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Charumathi D — AI/ML &amp; Data Science</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F1F4F8;
+    --surface:#FFFFFF;
+    --ink:#101826;
+    --ink-soft:#4B5866;
+    --ink-faint:#7C8894;
+    --navy:#1F4E79;
+    --navy-deep:#123252;
+    --gold:#E3A62F;
+    --gold-deep:#B9821E;
+    --line:#DBE2EA;
+    --radius:14px;
+    --maxw:1180px;
+    --display: 'Fraunces', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'IBM Plex Mono', 'SFMono-Regular', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+  img{max-width:100%;display:block;}
+
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 32px;}
+  @media (max-width:640px){ .wrap{padding:0 20px;} }
+
+  /* ---------- Nav ---------- */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(241,244,248,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    height:72px;
+  }
+  .mark{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--display); font-weight:600; font-size:1.15rem;
+    color:var(--navy-deep); text-decoration:none;
+    letter-spacing:0.01em;
+  }
+  .mark .dot{
+    width:9px;height:9px;border-radius:50%;background:var(--gold);
+    display:inline-block;
+  }
+  nav.links{display:flex; gap:2px; align-items:center;}
+  nav.links button{
+    font-family:var(--mono); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--ink-soft); text-decoration:none; padding:10px 14px; border-radius:8px;
+    transition:color .2s ease, background .2s ease;
+  }
+  nav.links button:hover, nav.links button:focus-visible{ color:var(--navy-deep); background:rgba(31,78,121,0.08); }
+  .nav-cta{
+    font-family:var(--mono); font-size:0.78rem; letter-spacing:0.04em;
+    background:var(--navy); color:#fff !important; padding:10px 16px; border-radius:8px;
+    text-decoration:none; white-space:nowrap;
+  }
+  .nav-cta:hover{ background:var(--navy-deep); }
+  .burger{ display:none; background:none; border:none; cursor:pointer; padding:8px; }
+  .burger span{display:block; width:22px; height:2px; background:var(--ink); margin:5px 0; border-radius:2px;}
+  @media (max-width:860px){
+    nav.links{ display:none; }
+    .burger{ display:block; }
+    .nav-row{ position:relative; }
+    #mobileMenu{
+      display:none; position:absolute; top:72px; left:0; right:0;
+      background:var(--surface); border-bottom:1px solid var(--line);
+      flex-direction:column; padding:12px 8px;
+    }
+    #mobileMenu.open{ display:flex; }
+    #mobileMenu button{ padding:14px 16px; font-family:var(--mono); font-size:0.85rem; text-decoration:none; color:var(--ink); border-radius:8px; }
+    #mobileMenu button:hover{ background:rgba(31,78,121,0.06); }
+  }
+
+  section{ padding:96px 0; scroll-margin-top:88px; }
+  @media (max-width:640px){ section{ padding:64px 0; } }
+
+  .eyebrow{
+    font-family:var(--mono); font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--gold-deep); margin:0 0 14px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{ content:""; width:22px; height:1px; background:var(--gold-deep); display:inline-block; }
+
+  h1,h2,h3{ font-family:var(--display); font-weight:600; color:var(--navy-deep); margin:0; }
+
+  /* ---------- Hero ---------- */
+  .hero{ padding:88px 0 100px; }
+  .hero-grid{
+    display:grid; grid-template-columns:1.15fr 0.85fr; gap:56px; align-items:center;
+  }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; gap:48px; } }
+
+  .hero h1{
+    font-size:clamp(2.3rem, 4.2vw, 3.6rem); line-height:1.08; letter-spacing:-0.01em;
+  }
+  .hero h1 em{ font-style:italic; color:var(--navy); }
+  .hero p.lede{
+    font-size:1.08rem; color:var(--ink-soft); max-width:52ch; margin:22px 0 32px;
+  }
+  .hero-cta{ display:flex; gap:14px; flex-wrap:wrap; }
+  .btn{
+    font-family:var(--mono); font-size:0.82rem; letter-spacing:0.03em;
+    padding:13px 22px; border-radius:9px; text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+    border:1px solid transparent; transition:transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn.primary{ background:var(--navy); color:#fff; }
+  .btn.primary:hover{ background:var(--navy-deep); }
+  .btn.ghost{ border-color:var(--line); color:var(--ink); background:var(--surface); }
+  .btn.ghost:hover{ border-color:var(--navy); }
+
+  .contact-row{
+    margin-top:34px; display:flex; gap:20px; flex-wrap:wrap; font-family:var(--mono); font-size:0.8rem; color:var(--ink-faint);
+  }
+  .contact-row a{ text-decoration:none; color:var(--ink-soft); border-bottom:1px solid var(--line); padding-bottom:2px; }
+  .contact-row a:hover{ color:var(--navy); border-color:var(--navy); }
+
+  /* ---------- Gauge (signature element) ---------- */
+  .gauge-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:20px;
+    padding:34px 28px; text-align:center; position:relative; overflow:hidden;
+  }
+  .gauge-card::before{
+    content:"resumeiq.output"; position:absolute; top:14px; left:18px;
+    font-family:var(--mono); font-size:0.68rem; color:var(--ink-faint); letter-spacing:0.04em;
+  }
+  .gauge-wrap{ width:220px; height:220px; margin:34px auto 8px; position:relative; }
+  .gauge-wrap svg{ width:100%; height:100%; transform:rotate(-90deg); }
+  .gauge-track{ fill:none; stroke:var(--line); stroke-width:12; }
+  .gauge-fill{
+    fill:none; stroke:var(--gold); stroke-width:12; stroke-linecap:round;
+    stroke-dasharray:565.48; stroke-dashoffset:565.48;
+    transition:stroke-dashoffset 1.6s cubic-bezier(.2,.8,.2,1);
+  }
+  .gauge-center{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  }
+  .gauge-num{ font-family:var(--mono); font-weight:600; font-size:2.4rem; color:var(--navy-deep); }
+  .gauge-label{ font-family:var(--mono); font-size:0.68rem; color:var(--ink-faint); letter-spacing:0.06em; margin-top:2px; }
+  .gauge-caption{ font-size:0.85rem; color:var(--ink-soft); margin-top:16px; }
+  .gauge-caption strong{ color:var(--navy-deep); }
+
+  /* ---------- Section headers ---------- */
+  .sec-head{ margin-bottom:44px; max-width:640px; }
+  .sec-head h2{ font-size:clamp(1.7rem,2.6vw,2.2rem); letter-spacing:-0.01em; }
+  .sec-head p{ color:var(--ink-soft); margin-top:12px; }
+
+  /* ---------- Summary ---------- */
+  .summary-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:36px; font-size:1.02rem; color:var(--ink-soft);
+  }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline{ position:relative; padding-left:32px; border-left:2px solid var(--line); }
+  .tl-item{ position:relative; padding-bottom:44px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-38px; top:6px; width:12px; height:12px; border-radius:50%;
+    background:var(--surface); border:3px solid var(--navy);
+  }
+  .tl-item.current::before{ border-color:var(--gold); background:var(--gold); }
+  .tl-top{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:baseline; }
+  .tl-role{ font-family:var(--display); font-weight:600; font-size:1.15rem; color:var(--navy-deep); }
+  .tl-date{ font-family:var(--mono); font-size:0.78rem; color:var(--ink-faint); white-space:nowrap; }
+  .tl-org{ font-size:0.92rem; color:var(--ink-faint); font-style:italic; margin-top:2px; }
+  .tl-list{ margin:14px 0 0; padding-left:18px; color:var(--ink-soft); }
+  .tl-list li{ margin-bottom:7px; }
+  .badge{
+    display:inline-block; font-family:var(--mono); font-size:0.65rem; letter-spacing:0.05em;
+    background:rgba(227,166,47,0.16); color:var(--gold-deep); padding:3px 9px; border-radius:100px;
+    margin-left:10px; text-transform:uppercase; vertical-align:middle;
+  }
+
+  /* ---------- Projects ---------- */
+  .proj-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  @media (max-width:980px){ .proj-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:680px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; display:flex; flex-direction:column; height:100%;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .proj-card:hover{ border-color:var(--navy); transform:translateY(-3px); }
+  .proj-card.featured{ border-color:var(--gold); background:linear-gradient(180deg,#FFFDF6,#FFFFFF); }
+  .proj-date{ font-family:var(--mono); font-size:0.72rem; color:var(--ink-faint); }
+  .proj-title{ font-family:var(--display); font-weight:600; font-size:1.2rem; color:var(--navy-deep); margin-top:8px; }
+  .proj-stack{ display:flex; flex-wrap:wrap; gap:6px; margin:14px 0 16px; }
+  .chip{
+    font-family:var(--mono); font-size:0.66rem; letter-spacing:0.02em;
+    background:rgba(31,78,121,0.07); color:var(--navy-deep); padding:4px 9px; border-radius:100px;
+  }
+  .proj-list{ margin:0; padding-left:18px; color:var(--ink-soft); font-size:0.92rem; flex:1; }
+  .proj-list li{ margin-bottom:8px; }
+  .proj-link{
+    margin-top:18px; font-family:var(--mono); font-size:0.78rem; text-decoration:none;
+    color:var(--navy); display:inline-flex; align-items:center; gap:6px; width:fit-content;
+    border-bottom:1px solid transparent;
+  }
+  .proj-link:hover{ border-color:var(--navy); }
+
+  /* ---------- Skills ---------- */
+  .skills-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:18px; }
+  @media (max-width:760px){ .skills-grid{ grid-template-columns:1fr; } }
+  .skill-group{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:22px 24px;
+  }
+  .skill-group h3{ font-size:0.95rem; font-family:var(--mono); text-transform:uppercase; letter-spacing:0.05em; color:var(--navy); margin-bottom:12px; }
+  .skill-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .skill-chips span{
+    font-size:0.82rem; background:var(--bg); border:1px solid var(--line); padding:6px 12px; border-radius:8px; color:var(--ink-soft);
+  }
+  .skill-chips span.beginner{ border-style:dashed; color:var(--gold-deep); border-color:var(--gold); }
+
+  /* ---------- Education / Awards ---------- */
+  .two-col{ display:grid; grid-template-columns:1fr 1fr; gap:22px; }
+  @media (max-width:760px){ .two-col{ grid-template-columns:1fr; } }
+  .edu-card{
+    background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:26px;
+  }
+  .edu-card .deg{ font-family:var(--display); font-weight:600; font-size:1.08rem; color:var(--navy-deep); }
+  .edu-card .inst{ font-size:0.88rem; color:var(--ink-faint); font-style:italic; margin-top:4px; }
+  .edu-meta{ display:flex; justify-content:space-between; margin-top:14px; font-family:var(--mono); font-size:0.78rem; color:var(--ink-soft); }
+  .edu-meta strong{ color:var(--navy); }
+
+  .award-list{ list-style:none; margin:0; padding:0; display:grid; gap:12px; }
+  .award-list li{
+    background:var(--surface); border:1px solid var(--line); border-radius:10px; padding:14px 18px; font-size:0.9rem; color:var(--ink-soft);
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .award-list li::before{ content:"—"; color:var(--gold-deep); font-family:var(--mono); flex-shrink:0; }
+
+  .cert-cols{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; margin-top:22px; }
+  @media (max-width:760px){ .cert-cols{ grid-template-columns:1fr; } }
+  .cert-cols h4{ font-family:var(--mono); font-size:0.78rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-faint); margin:0 0 10px; }
+  .cert-cols ul{ margin:0; padding-left:18px; color:var(--ink-soft); font-size:0.9rem; }
+  .cert-cols li{ margin-bottom:6px; }
+
+  /* ---------- Contact / Footer ---------- */
+  footer.site{
+    background:var(--navy-deep); color:#EAF0F6; padding:80px 0 40px; scroll-margin-top:0;
+  }
+  footer.site .sec-head h2{ color:#fff; }
+  footer.site .sec-head p{ color:#AFC2D6; }
+  .contact-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:760px){ .contact-cards{ grid-template-columns:1fr; } }
+  .contact-card{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:var(--radius);
+    padding:22px; text-decoration:none; color:#EAF0F6; transition:background .2s ease;
+  }
+  .contact-card:hover{ background:rgba(255,255,255,0.1); }
+  .contact-card .label{ font-family:var(--mono); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.06em; color:#8FB0CC; }
+  .contact-card .value{ font-family:var(--display); font-weight:600; margin-top:8px; font-size:1.05rem; }
+  .foot-bottom{
+    margin-top:56px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.14);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-family:var(--mono); font-size:0.75rem; color:#8FA6BC;
+  }
+
+  /* reveal-on-scroll */
+  .reveal{ opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease; }
+  .reveal.in{ opacity:1; transform:none; }
+
+  :focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+
+  /* Reset native button chrome so buttons can reuse link/nav styling below */
+  button.mark, nav.links button, #mobileMenu button, a.btn, button.btn{
+    font-family:inherit; background:none; border:none; padding:0; margin:0;
+    cursor:pointer; text-align:left; -webkit-appearance:none; appearance:none;
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav-row">
+    <button type="button" data-scroll="top" class="mark"><span class="dot"></span>Charumathi D</button>
+    <nav class="links">
+      <button type="button" data-scroll="summary">Summary</button>
+      <button type="button" data-scroll="experience">Experience</button>
+      <button type="button" data-scroll="projects">Projects</button>
+      <button type="button" data-scroll="skills">Skills</button>
+      <button type="button" data-scroll="education">Education</button>
+      <button type="button" data-scroll="contact" class="nav-cta">Contact</button>
+    </nav>
+    <button class="burger" id="burgerBtn" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+    <div id="mobileMenu">
+      <button type="button" data-scroll="summary">Summary</button>
+      <button type="button" data-scroll="experience">Experience</button>
+      <button type="button" data-scroll="projects">Projects</button>
+      <button type="button" data-scroll="skills">Skills</button>
+      <button type="button" data-scroll="education">Education</button>
+      <button type="button" data-scroll="contact">Contact</button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">AI / ML &amp; Data Science · Bengaluru, India</p>
+        <h1>I build systems that <em>score</em>, sort, and explain data.</h1>
+        <p class="lede">Computer Science &amp; Engineering undergraduate (AI &amp; ML) with internship experience across AI/ML, data science, and business intelligence — turning messy datasets into models, dashboards, and tools people actually use.</p>
+        <div class="hero-cta">
+          <button type="button" class="btn primary" data-scroll="projects">View projects</button>
+          <button type="button" class="btn ghost" data-scroll="contact">Get in touch</button>
+        </div>
+        <div class="contact-row">
+          <a href="mailto:charumathidhanasekar27@gmail.com">charumathidhanasekar27@gmail.com</a>
+          <a href="https://www.linkedin.com/in/charumathi-d" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/CHARUMATHID380" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div class="gauge-card">
+        <div class="gauge-wrap">
+          <svg viewBox="0 0 200 200">
+            <circle class="gauge-track" cx="100" cy="100" r="90"></circle>
+            <circle class="gauge-fill" id="gaugeFill" cx="100" cy="100" r="90"></circle>
+          </svg>
+          <div class="gauge-center">
+            <span class="gauge-num" id="gaugeNum">0</span>
+            <span class="gauge-label">ATS MATCH SCORE</span>
+          </div>
+        </div>
+        <p class="gauge-caption"><strong>ResumeIQ</strong> scoring a sample resume live — the AI resume analyzer built and shipped by Charumathi.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUMMARY -->
+  <section id="summary">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Summary</p>
+        <h2>What I do</h2>
+      </div>
+      <div class="summary-card reveal">
+        Computer Science and Engineering undergraduate specializing in Artificial Intelligence and Machine Learning, with internship experience in AI/ML, Data Science, and Business Intelligence. Proficient in Python, SQL, Power BI, Tableau, NLP, and deep learning techniques, with hands-on project work spanning machine learning model development, model deployment pipelines, and interactive dashboard design. Experienced in ETL processes, statistical analysis, DAX, and cloud computing on Microsoft Azure and AWS, with working knowledge of MLOps practices and big data concepts. Adept at translating complex datasets into clear, insight-driven stories for stakeholders, with a strong foundation in data governance and a passion for building intelligent, scalable AI/ML solutions.
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Experience</p>
+        <h2>Where I've worked</h2>
+      </div>
+
+      <div class="timeline reveal">
+        <div class="tl-item current">
+          <div class="tl-top">
+            <span class="tl-role">Virtual Intern <span class="badge">Ongoing</span></span>
+            <span class="tl-date">Jul 2026 – Present · Remote</span>
+          </div>
+          <div class="tl-org">Infosys Springboard Virtual Internship 7.0</div>
+          <ul class="tl-list">
+            <li>Selected for the Infosys Springboard Virtual Internship 7.0, gaining hands-on exposure to industry-aligned AI/ML projects under structured mentorship.</li>
+            <li>Engaging in guided modules on emerging technologies and professional skill-building as part of Infosys' flagship virtual internship program.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-top">
+            <span class="tl-role">AI/ML &amp; Data Science Intern</span>
+            <span class="tl-date">Jun 2026 – Jul 2026 · Remote</span>
+          </div>
+          <div class="tl-org">CCQ Pvt. Ltd.</div>
+          <ul class="tl-list">
+            <li>Spearheaded end-to-end development of a Resume ATS Score Analysis web app using React, delivering a functional prototype within 1 month.</li>
+            <li>Engineered NLP-based keyword extraction and ML scoring algorithms to evaluate resumes against 20+ ATS criteria, achieving reliable scoring accuracy.</li>
+            <li>Managed the full development lifecycle independently — from requirement analysis and model integration to frontend deployment and local testing.</li>
+          </ul>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-top">
+            <span class="tl-role">Data Analytics Trainee</span>
+            <span class="tl-date">Mar 2026 – Apr 2026 · Remote</span>
+          </div>
+          <div class="tl-org">ISM UNIV, Bengaluru · Power BI Training Program (45 Hours)</div>
+          <ul class="tl-list">
+            <li>Completed a 45-hour Business Intelligence training program covering Power BI, data modeling, and DAX calculations.</li>
+            <li>Built 10+ DAX measures and KPIs; applied iterative Agile-style cycles to refine 3 dashboard layouts based on structured peer feedback.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Projects</p>
+        <h2>Selected work</h2>
+        <p>Three projects spanning applied ML, security, and business intelligence.</p>
+      </div>
+
+      <div class="proj-grid">
+        <div class="proj-card featured reveal">
+          <span class="proj-date">Jun 2026 – Present</span>
+          <h3 class="proj-title">ResumeIQ</h3>
+          <div class="proj-stack">
+            <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Supabase</span><span class="chip">Gemini AI</span><span class="chip">Tailwind</span>
+          </div>
+          <ul class="proj-list">
+            <li>Scores ATS compatibility 0–100 across a 9-section breakdown and flags keyword gaps by domain.</li>
+            <li>Matches job roles by fit percentage and recommends courses from Coursera, Udemy, and edX to close gaps.</li>
+            <li>AI section-by-section rewriter with accept/reject diffs, Google OAuth, and saved-analysis history.</li>
+          </ul>
+          <a class="proj-link" href="https://github.com/CHARUMATHID380/resumeiq" target="_blank" rel="noopener">View on GitHub →</a>
+        </div>
+
+        <div class="proj-card reveal">
+          <span class="proj-date">Oct 2025 – Dec 2025</span>
+          <h3 class="proj-title">Phishing Website Detection</h3>
+          <div class="proj-stack">
+            <span class="chip">Python</span><span class="chip">Scikit-learn</span><span class="chip">Random Forest</span><span class="chip">SVM</span>
+          </div>
+          <ul class="proj-list">
+            <li>Built an ML + deep learning pipeline on 15,000+ URL records; Random Forest reached 95% accuracy on an 80/20 split.</li>
+            <li>Engineered 30+ URL features and evaluated 3 models on precision, recall, and F1 for optimal selection.</li>
+            <li>Documented scoring logic and output structure for real-time URL classification use cases.</li>
+          </ul>
+        </div>
+
+        <div class="proj-card reveal">
+          <span class="proj-date">Jan 2026 – Feb 2026</span>
+          <h3 class="proj-title">Social Media Analytics Dashboard</h3>
+          <div class="proj-stack">
+            <span class="chip">Power BI</span><span class="chip">DAX</span><span class="chip">ETL</span>
+          </div>
+          <ul class="proj-list">
+            <li>Designed a 5-page Power BI dashboard analyzing engagement across 5 platforms and 1,000–5,000 rows.</li>
+            <li>Built 10+ DAX KPIs tracking reach, engagement rate, and activity trends with 100% data traceability.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Skills &amp; Tools</p>
+        <h2>What I work with</h2>
+      </div>
+
+      <div class="skills-grid reveal">
+        <div class="skill-group">
+          <h3>Languages &amp; DB</h3>
+          <div class="skill-chips">
+            <span>Python</span><span>Java</span><span>C/C++</span><span>SQL</span><span>MongoDB</span><span>MySQL</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>BI &amp; Data Tools</h3>
+          <div class="skill-chips">
+            <span>Power BI</span><span>Tableau</span><span>Excel (Advanced)</span><span>ETL Pipelines</span><span>DAX</span><span>Data Governance</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>ML &amp; AI</h3>
+          <div class="skill-chips">
+            <span>Scikit-learn</span><span>Pandas</span><span>NumPy</span><span>Matplotlib</span><span>Seaborn</span><span>TensorFlow</span><span>Deep Learning</span><span>NLP</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Web &amp; Dev Tools</h3>
+          <div class="skill-chips">
+            <span>React</span><span>JavaScript</span><span>VS Code</span><span>Jupyter</span><span>Google Colab</span><span>Git &amp; GitHub</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Cloud &amp; MLOps</h3>
+          <div class="skill-chips">
+            <span>Microsoft Azure (AZ-900 &amp; AI-900 — Pursuing)</span>
+            <span class="beginner">AWS Cloud — Beginner</span>
+            <span>Model Deployment</span><span>MLOps</span><span>Big Data</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h3>Competencies</h3>
+          <div class="skill-chips">
+            <span>Business Intelligence</span><span>Data Warehousing</span><span>EDA</span><span>Feature Engineering</span><span>Data Storytelling</span><span>Agile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="education">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="eyebrow">Education</p>
+        <h2>Academic background</h2>
+      </div>
+
+      <div class="two-col reveal">
+        <div class="edu-card">
+          <div class="deg">B.E. — Computer Science &amp; Engineering (AI &amp; ML)</div>
+          <div class="inst">East Point College of Engineering and Technology, Bengaluru</div>
+          <div class="edu-meta"><span>2023 – 2027 (Exp.)</span><strong>CGPA 9.56 / 10</strong></div>
+        </div>
+        <div class="edu-card">
+          <div class="deg">Pre-University — PCMC</div>
+          <div class="inst">St. Joseph's Indian Composite PU College, Bengaluru</div>
+          <div class="edu-meta"><span>2021 – 2023</span><strong>93.16%</strong></div>
+        </div>
+      </div>
+
+      <div class="two-col reveal" style="margin-top:22px;">
+        <div>
+          <ul class="award-list">
+            <li>Department Topper — Ranked 1st in CSE (AI &amp; ML), East Point College (Ongoing)</li>
+            <li>School Topper — Ranked 1st in 10th grade, Charan Public School</li>
+            <li>Top 10 in Science — Pre-University level, St. Joseph's PU College (2023)</li>
+            <li>Consistent Academic Excellence — 9.56 CGPA in Engineering &amp; 93.16% in Pre-University</li>
+          </ul>
+        </div>
+        <div class="edu-card">
+          <div class="cert-cols" style="margin-top:0;">
+            <div>
+              <h4>Completed</h4>
+              <ul>
+                <li>Java Fundamentals — Oracle Academy</li>
+                <li>Automation Pro I — Workato</li>
+                <li>Introduction to Modern AI — Cisco</li>
+                <li>Enterprise Design Thinking — IBM</li>
+              </ul>
+            </div>
+            <div>
+              <h4>Pursuing</h4>
+              <ul>
+                <li>Microsoft Azure Fundamentals (AZ-900)</li>
+                <li>Microsoft Azure AI Fundamentals (AI-900)</li>
+                <li>AWS Cloud Practitioner Essentials (Beginner)</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- CONTACT / FOOTER -->
+<footer class="site" id="contact">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow" style="color:#8FB0CC;">Contact</p>
+      <h2>Let's build something</h2>
+      <p>Open to AI/ML, data science, and BI internship or entry-level opportunities.</p>
+    </div>
+    <div class="contact-cards reveal">
+      <a class="contact-card" href="mailto:charumathidhanasekar27@gmail.com">
+        <div class="label">Email</div>
+        <div class="value">charumathidhanasekar27@gmail.com</div>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/charumathi-d" target="_blank" rel="noopener">
+        <div class="label">LinkedIn</div>
+        <div class="value">charumathi-d</div>
+      </a>
+      <a class="contact-card" href="https://github.com/CHARUMATHID380" target="_blank" rel="noopener">
+        <div class="label">GitHub</div>
+        <div class="value">CHARUMATHID380</div>
+      </a>
+    </div>
+    <div class="foot-bottom">
+      <span>Charumathi D · Bengaluru, India</span>
+      <span>Built with intent, not a template.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  const burger = document.getElementById('burgerBtn');
+  const menu = document.getElementById('mobileMenu');
+  burger.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    burger.setAttribute('aria-expanded', open);
+  });
+  menu.querySelectorAll('button').forEach(b => b.addEventListener('click', () => {
+    menu.classList.remove('open');
+    burger.setAttribute('aria-expanded', false);
+  }));
+
+  // In-page navigation: plain buttons instead of href="#id" anchors, since some
+  // embedded/sandboxed viewers intercept anchor-tag clicks as page navigation
+  // even when preventDefault() is called. Buttons sidestep that entirely.
+  document.querySelectorAll('[data-scroll]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-scroll');
+      if (id === 'top') {
+        window.scrollTo({ top:0, behavior:'smooth' });
+        return;
+      }
+      const target = document.getElementById(id);
+      if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  // Reveal on scroll
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold:0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Gauge count-up, triggered once hero is visible
+  const gaugeFill = document.getElementById('gaugeFill');
+  const gaugeNum = document.getElementById('gaugeNum');
+  const CIRC = 565.48;
+  const TARGET = 92;
+  let animated = false;
+  function animateGauge(){
+    if(animated) return;
+    animated = true;
+    const offset = CIRC - (CIRC * TARGET / 100);
+    gaugeFill.style.strokeDashoffset = offset;
+    let start = null;
+    const duration = 1400;
+    function step(ts){
+      if(!start) start = ts;
+      const progress = Math.min((ts - start) / duration, 1);
+      gaugeNum.textContent = Math.round(progress * TARGET);
+      if(progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  const gaugeIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ animateGauge(); gaugeIO.disconnect(); } });
+  }, { threshold:0.4 });
+  gaugeIO.observe(document.querySelector('.gauge-card'));
+</script>
+
+</body>
+</html>
