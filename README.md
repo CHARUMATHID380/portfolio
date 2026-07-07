@@ -8,5 +8,6 @@ Scroll-reveal animations and smooth in-page navigation
 Built with accessibility in mind (focus states, reduced-motion support)
 
 Tech: HTML5, CSS3 (custom properties), vanilla JS
+Live site: https://portfolio-five-umber-86.vercel.app/
 
 
